@@ -8,13 +8,26 @@ const port = 3000;
 app.engine("handlebars", exphbs());
 app.set("view engine", "handlebars");
 
-const students = ["vipul", "surbhi", "mohit"];
+const students = ["vipul", "surbhi", "mohit", "vibhey"];
 
 //middleware for parsing json
 app.use(express.json());
 
-app.get("/", function (req, res) {
-  res.send("hello World again!");
+//middleware for finding random lunch partners
+let lunchPartners = (req, res, next) => {
+  let randomNum = Math.floor(Math.random() * students.length);
+  let randomNum2 = Math.floor(Math.random() * students.length);
+
+  req.partners = {
+    student1: students[randomNum],
+    student2: students[randomNum2],
+  };
+  next();
+};
+
+app.get("/", lunchPartners, (req, res) => {
+  // res.send("hello World again!");
+  res.render("home", req.partners);
 });
 
 app.get("/students", function (req, res) {
