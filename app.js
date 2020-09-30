@@ -1,6 +1,12 @@
 const express = require("express");
+const exphbs = require("express-handlebars"); //template engine for rendering view
+
 const app = express();
 const port = 3000;
+
+//taken from handlebars documentation
+app.engine("handlebars", exphbs());
+app.set("view engine", "handlebars");
 
 const students = ["vipul", "surbhi", "mohit"];
 
